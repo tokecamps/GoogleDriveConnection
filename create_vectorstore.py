@@ -33,7 +33,13 @@ def add_files_to_vs(docs):
 
     index_name = "googledriveindex"
     vectorstore = PineconeVectorStore(index_name=index_name, embedding=embeddings)
-    vectorstore.delete(delete_all=True)
+
+    try:
+        vectorstore.delete(delete_all=True)
+
+    except:
+        print("Vectorstore could not be deleted")
+        
 
     vectorstore_from_docs = PineconeVectorStore.from_documents(
             docs,
@@ -45,7 +51,7 @@ def check_index():
     index_name = "googledriveindex"
     pc = Pinecone()
 
-    # # connect to index
+    # connect to index
     index = pc.Index(index_name)
 
     # view index stats
@@ -55,6 +61,7 @@ def check_index():
 
 def run_vs():
     docs = load_documents()
+    print(docs)
     add_files_to_vs(docs)
 
     num_vectors = check_index()

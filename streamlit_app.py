@@ -12,7 +12,8 @@ import streamlit as st
 
 def main():
 
-    st.session_state.authcomplete = False
+    if 'authcomplete' not in st.session_state:
+        st.session_state['authcomplete'] = False
 
     def create_url():
         SCOPES = ['https://www.googleapis.com/auth/drive']
@@ -68,9 +69,8 @@ def main():
     if st.button('Authorize Google Drive'):
         create_url()
 
-    
-    if st.session_state.authcomplete: 
-        st.write("Google Drive authentication succesfully ")
+
+    st.write("Google Drive authentication was succesfull: ", st.session_state.authcomplete)
             
 if __name__ == "__main__":
 

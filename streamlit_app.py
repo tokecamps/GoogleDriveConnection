@@ -42,7 +42,7 @@ def main():
         # Tell the user to go to the authorization URL.
         auth_url, _ = flow.authorization_url(prompt='consent')
 
-        print('Please go to this URL: {}'.format(auth_url))
+        st.write('Please go to this URL: ', auth_url)
 
         if auth_url:
             code = st.text_input('Enter the authorization code: ', None)
@@ -60,7 +60,7 @@ def main():
                     
                 service = build('drive', 'v3', credentials=creds)
 
-            return creds
+                return creds
 
     if st.button('Authorize Google Drive'):
         creds = create_url()

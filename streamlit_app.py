@@ -21,19 +21,17 @@ def main():
         st.session_state.SCOPES =  ['https://www.googleapis.com/auth/drive']
 
     if st.sidebar.button('Authorize Google Drive'):
-        success = authenticate()
+        authenticate()
 
-        if not success:
-            if st.session_state.auth_url:
-                with st.sidebar:
-                    st.write('Please go to this URL: ', st.session_state.auth_url)
-                    code = st.text_input('Enter the authorization code: ', None)
-                if code:
-                    create_creds(code)
+    if not st.session_state.authcomplete:
+        if st.session_state.auth_url:
+            with st.sidebar:
+                st.write('Please go to this URL: ', st.session_state.auth_url)
+                code = st.text_input('Enter the authorization code: ', None)
+            if code:
+                create_creds(code)
+                authenticate()
 
-                    success = authenticate()
-
-        
 
     # if st.session_state.auth_url:
     #     with st.sidebar:

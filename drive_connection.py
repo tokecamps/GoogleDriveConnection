@@ -70,9 +70,6 @@ def authenticate():
         else:
             create_url()
             
-            return False
-
-            
     if creds and creds.valid:
         service = build('drive', 'v3', credentials=creds)
 
@@ -80,8 +77,6 @@ def authenticate():
             st.success("Google Drive authentication was successful.")
         st.session_state.authcomplete = True
 
-        return True
- 
 
 
     # try: 

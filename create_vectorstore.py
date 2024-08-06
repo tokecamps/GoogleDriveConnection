@@ -4,7 +4,6 @@ from langchain_pinecone import PineconeVectorStore
 import streamlit as st
 from pinecone import Pinecone
 
-
 import os
 from dotenv import load_dotenv
 

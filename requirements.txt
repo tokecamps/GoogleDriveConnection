@@ -6,7 +6,8 @@ python-dotenv
 tiktoken
 pypdf==4.2.0
 python-dotenv
-PyPDF2
+PyPDF2==3.0.1
+pycryptodome==3.18.0
 unstructured
 python-magic
 libmagic

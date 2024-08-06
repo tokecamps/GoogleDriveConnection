@@ -23,29 +23,22 @@ def main():
     if st.sidebar.button('Authorize Google Drive'):
         authenticate()
 
+    # If token.json file was not yet present or did not work, first establish 
     if not st.session_state.authcomplete:
         if st.session_state.auth_url:
             with st.sidebar:
-                st.write('Please go to this URL: ', st.session_state.auth_url)
+                st.write("Please authenticate Google via this [link](%s)" % st.session_state.auth_url)
                 code = st.text_input('Enter the authorization code: ', None)
             if code:
                 create_creds(code)
                 authenticate()
-
-
-    # if st.session_state.auth_url:
-    #     with st.sidebar:
-    #         st.write('Please go to this URL: ', st.session_state.auth_url)
-    #         code = st.text_input('Enter the authorization code: ', None)
-    #     if code:
-    #         create_service(code)
             
     with st.sidebar:
         st.write("Google Drive authentication was succesfull: ", st.session_state.authcomplete)
             
 if __name__ == "__main__":
 
-    main() # Or: answer_mode='base_model' 
+    main() 
 
 
 # def main(answer_mode: str):

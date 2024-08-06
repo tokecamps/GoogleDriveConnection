@@ -68,6 +68,7 @@ def authenticate():
             with open('token.json', 'w') as token_file:
                 token_file.write(creds.to_json())
         else:
+            st.session_state.authcomplete = False
             create_url()
             
     if creds and creds.valid:

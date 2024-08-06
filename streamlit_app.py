@@ -4,10 +4,9 @@ import json
 
 
 from googleapiclient.discovery import build
-
 from google_auth_oauthlib.flow import InstalledAppFlow
 
-
+from drive_connection import create_service, create_url
 
 
 def main():
@@ -19,69 +18,18 @@ def main():
     if 'flow' not in st.session_state:
         st.session_state.flow = None
 
-
-    def create_url():
-        SCOPES = ['https://www.googleapis.com/auth/drive']
-    
-        credentials = {
-        "web": {
-            "client_id": st.secrets["CLIENT_ID"],
-            "project_id": st.secrets["PROJECT_ID"], 
-            "auth_uri": "https://accounts.google.com/o/oauth2/auth",
-            "token_uri": "https://accounts.google.com/o/oauth2/token",
-            "auth_provider_x509_cert_url": "https://www.googleapis.com/oauth2/v1/certs",
-            "client_secret": st.secrets["CLIENT_SECRET"],
-            "redirect_uris": ["urn:ietf:wg:oauth:2.0:oob"]
-            }
-        }
-
-        # Convert dictionary to JSON string
-        json_string = json.dumps(credentials, indent=4)
-
-        # Save JSON string to a file
-        with open('client_secrets.json', 'w') as json_file:
-            json_file.write(json_string)
-
-        flow = InstalledAppFlow.from_client_secrets_file(
-            'client_secrets.json', 
-            SCOPES, 
-            redirect_uri='urn:ietf:wg:oauth:2.0:oob')
-        
-        # Tell the user to go to the authorization URL.
-        auth_url, _ = flow.authorization_url(prompt='consent')
-
-        st.session_state.auth_url = auth_url
-        st.session_state.flow = flow
-  
-
-    if st.button('Authorize Google Drive'):
+    if st.sidebar.button('Authorize Google Drive'):
         create_url()
 
     if st.session_state.auth_url:
-        st.write('Please go to this URL: ', st.session_state.auth_url)
-        code = st.text_input('Enter the authorization code: ', None)
-
+        with st.sidebar:
+            st.write('Please go to this URL: ', st.session_state.auth_url)
+            code = st.text_input('Enter the authorization code: ', None)
         if code:
-            try: 
-                flow = st.session_state.flow
-                flow.fetch_token(code=code)
-
-                session = flow.authorized_session()
-
-                creds = flow.credentials
-
-                # Save the credentials
-                with open('token.json', 'w') as token_file:
-                    token_file.write(creds.to_json())
-                    
-                service = build('drive', 'v3', credentials=creds)
-
-                st.success("Google Drive authentication was successful.")
-                st.session_state.authcomplete = True
-            except Exception as e:
-                st.error(f"An error occurred: {e}")
-
-    st.write("Google Drive authentication was succesfull: ", st.session_state.authcomplete)
+            create_service(code)
+            
+    with st.sidebar:
+        st.write("Google Drive authentication was succesfull: ", st.session_state.authcomplete)
             
 if __name__ == "__main__":
 

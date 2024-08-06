@@ -27,6 +27,11 @@ def main(answer_mode='base_model'):
         st.session_state.flow = None
     if 'SCOPES' not in st.session_state:
         st.session_state.SCOPES =  ['https://www.googleapis.com/auth/drive']
+    if "FOLDER_ID" not in st.session_state:
+        st.session_state.FOLDER_ID = None
+
+    with st.sidebar:
+        st.session_state.FOLDER_ID = st.text_input('Enter the folder id to be loaded: ', None)
 
     if st.sidebar.button('Authorize Google Drive'):
         authenticate()

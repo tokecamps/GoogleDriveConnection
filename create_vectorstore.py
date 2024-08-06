@@ -14,7 +14,7 @@ def load_documents():
     CLIENT_SECRET_FILE = "client_secrets.json"
     TOKEN_FILE = "token.json"
     # GOOGLE_DRIVER_FOLDER_ID ="17x-JToBT6UXF2j2TdqE91J0G4yyvPTbZ" -> folder of Wil
-    GOOGLE_DRIVER_FOLDER_ID = st.secrets["FOLDER_ID"] 
+    GOOGLE_DRIVER_FOLDER_ID = st.session_state.FOLDER_ID
 
     loader = GoogleDriveLoader(
         credentials_path=CLIENT_SECRET_FILE,

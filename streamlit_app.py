@@ -41,6 +41,15 @@ def main():
         if st.sidebar.button('Update Vectorstore'):
             run_vs()
 
+    if st.sidebar.button('Delete Authentication File'):
+        try:
+            if os.path.exists('token.json'):
+                os.remove('token.json')
+                st.success("token.json file deleted successfully.")
+            else:
+                st.warning("token.json file does not exist.")
+        except Exception as e:
+            st.error(f"An error occurred while deleting the token.json file: {e}")
 
             
 if __name__ == "__main__":

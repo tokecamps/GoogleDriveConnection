@@ -59,7 +59,7 @@ def create_creds(code):
         st.error(f"An error occurred: {e}")
 
 
-def authenticate(code):
+def authenticate():
     creds = None
     if os.path.exists('token.json'):
         creds = Credentials.from_authorized_user_file('token.json', st.session_state.SCOPES)

@@ -12,6 +12,8 @@ import streamlit as st
 
 def main():
 
+    st.session_state.authcomplete = False
+
     def create_url():
         SCOPES = ['https://www.googleapis.com/auth/drive']
     

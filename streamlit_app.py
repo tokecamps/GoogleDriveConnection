@@ -30,9 +30,6 @@ def main(answer_mode='base_model'):
     if "FOLDER_ID" not in st.session_state:
         st.session_state.FOLDER_ID = None
 
-    with st.sidebar:
-        st.session_state.FOLDER_ID = st.text_input('Enter the folder id to be loaded: ', None)
-
     if st.sidebar.button('Authorize Google Drive'):
         authenticate()
 
@@ -49,7 +46,11 @@ def main(answer_mode='base_model'):
     with st.sidebar:
         st.write("Google Drive authentication was succesfull: ", st.session_state.authcomplete)
 
-    if st.session_state.authcomplete:
+    with st.sidebar:
+        st.session_state.FOLDER_ID = st.text_input('Enter the folder id to be loaded: ', None)
+
+
+    if (st.session_state.authcomplete) and (st.session_state.FOLDER_ID is not None):
         if st.sidebar.button('Update Vectorstore'):
             run_vs()
 

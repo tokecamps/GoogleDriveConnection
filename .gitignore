@@ -3,4 +3,3 @@ token.json
 generate_answer.py
 googledrive_connection.py
 helpers.py
-create_vectorstore.py

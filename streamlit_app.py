@@ -7,10 +7,9 @@ from googleapiclient.discovery import build
 from google_auth_oauthlib.flow import InstalledAppFlow
 
 from drive_connection import authenticate, create_creds
+from create_vectorstore import run_vs
 
-
-def main():
-
+def sidebar():
     if 'authcomplete' not in st.session_state:
         st.session_state.authcomplete = False
     if 'auth_url' not in st.session_state:
@@ -35,6 +34,16 @@ def main():
             
     with st.sidebar:
         st.write("Google Drive authentication was succesfull: ", st.session_state.authcomplete)
+
+    if st.session_state.authcomplete:
+        if st.sidebar.button('Update Vectorstore'):
+            run_vs()
+
+def main():
+    # Run the sidebar 
+    sidebar()
+
+
             
 if __name__ == "__main__":
 

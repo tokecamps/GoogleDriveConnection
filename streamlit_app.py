@@ -115,6 +115,8 @@ def main(answer_mode='base_model'):
 
                 response = st.session_state.rag_chain.invoke({"input": st.session_state.messages[-1]["content"], 
                                                               "chat_history":  st.session_state.messages})
+                
+                st.write(response)
                 final_response = response['response']
 
             st.write(final_response)

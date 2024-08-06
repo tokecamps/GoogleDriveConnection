@@ -47,6 +47,8 @@ def add_files_to_vs(docs):
             embedding=embeddings
         )
     
+    return True
+    
 def check_index():
     index_name = "googledriveindex"
     pc = Pinecone()
@@ -61,10 +63,12 @@ def check_index():
 
 def run_vs():
     docs = load_documents()
-    st.write(docs)
-    add_files_to_vs(docs)
+    # st.write(docs)
+    files_added = add_files_to_vs(docs)
 
-    num_vectors = check_index()
+    if files_added:
 
-    with st.sidebar:
-        st.write("The vectorstore contains a number of ", str(num_vectors), " vectors")
+        num_vectors = check_index()
+
+        with st.sidebar:
+            st.write("The vectorstore contains a number of ", str(num_vectors), " vectors")

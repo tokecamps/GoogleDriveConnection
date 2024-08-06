@@ -113,7 +113,7 @@ def main(answer_mode='base_model'):
                     print("adding chain to session state")
                     st.session_state.rag_chain = base_model_chatbot()
 
-                response = st.session_state.llm_chain.invoke({"input": st.session_state.messages[-1]["content"], 
+                response = st.session_state.rag_chain.invoke({"input": st.session_state.messages[-1]["content"], 
                                                               "chat_history":  st.session_state.messages})
                 final_response = response['response']
 

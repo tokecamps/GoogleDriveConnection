@@ -19,7 +19,7 @@ def load_documents():
         credentials_path=CLIENT_SECRET_FILE,
         token_path=TOKEN_FILE,
         folder_id=GOOGLE_DRIVER_FOLDER_ID,
-        recursive=False,
+        recursive=True,
         file_types=["sheet", "document", "pdf"],
     )
     return loader.load()

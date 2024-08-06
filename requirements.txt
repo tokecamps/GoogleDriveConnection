@@ -9,6 +9,7 @@ python-dotenv
 PyPDF2
 unstructured
 python-magic
+libmagic
 unstructured[all-docs]
 faiss-cpu
 google-api-python-client 

@@ -7,7 +7,7 @@ from pinecone import Pinecone
 import os
 from dotenv import load_dotenv
 
-load_env()
+load_dotenv()
 
 
 CLIENT_SECRET_FILE = "client_secrets.json"

@@ -59,12 +59,11 @@ def main():
                     token_file.write(creds.to_json())
                     
                 service = build('drive', 'v3', credentials=creds)
-
-                return creds
+  
 
     if st.button('Authorize Google Drive'):
-        creds = create_url()
-        st.markdown(creds)
+        create_url()
+        st.write("Google Drive authentication succesfully ")
             
 if __name__ == "__main__":
 

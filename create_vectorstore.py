@@ -4,6 +4,7 @@ from langchain_pinecone import PineconeVectorStore
 import streamlit as st
 from pinecone import Pinecone
 
+
 import os
 from dotenv import load_dotenv
 
@@ -13,7 +14,8 @@ load_dotenv()
 def load_documents():
     CLIENT_SECRET_FILE = "client_secrets.json"
     TOKEN_FILE = "token.json"
-    GOOGLE_DRIVER_FOLDER_ID ="17x-JToBT6UXF2j2TdqE91J0G4yyvPTbZ"
+    # GOOGLE_DRIVER_FOLDER_ID ="17x-JToBT6UXF2j2TdqE91J0G4yyvPTbZ" -> folder of Wil
+    GOOGLE_DRIVER_FOLDER_ID = st.secrets["FOLDER_ID"] 
 
     loader = GoogleDriveLoader(
         credentials_path=CLIENT_SECRET_FILE,
@@ -30,7 +32,6 @@ def add_files_to_vs(docs):
     os.environ["OPENAI_API_KEY"] = st.secrets["OPENAI_API_KEY"]
 
     embeddings = OpenAIEmbeddings()
-
     index_name = "googledriveindex"
     vectorstore = PineconeVectorStore(index_name=index_name, embedding=embeddings)
 

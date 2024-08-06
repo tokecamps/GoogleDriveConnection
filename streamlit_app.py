@@ -13,7 +13,12 @@ from google_auth_oauthlib.flow import InstalledAppFlow
 def main():
 
     if 'authcomplete' not in st.session_state:
-        st.session_state['authcomplete'] = False
+        st.session_state.authcomplete = False
+    if 'auth_url' not in st.session_state:
+        st.session_state.auth_url = None
+    if 'flow' not in st.session_state:
+        st.session_state.flow = None
+
 
     def create_url():
         SCOPES = ['https://www.googleapis.com/auth/drive']
@@ -45,12 +50,20 @@ def main():
         # Tell the user to go to the authorization URL.
         auth_url, _ = flow.authorization_url(prompt='consent')
 
-        st.write('Please go to this URL: ', auth_url)
+        st.session_state.auth_url = auth_url
+        st.session_state.flow = flow
+  
 
+    if st.button('Authorize Google Drive'):
+        create_url()
+
+    if st.session_state.auth_url:
+        st.write('Please go to this URL: ', st.session_state.auth_url)
         code = st.text_input('Enter the authorization code: ', None)
 
         if code:
             try: 
+                flow = st.session_state.flow
                 flow.fetch_token(code=code)
 
                 session = flow.authorized_session()
@@ -67,11 +80,6 @@ def main():
                 st.session_state.authcomplete = True
             except Exception as e:
                 st.error(f"An error occurred: {e}")
-
-  
-
-    if st.button('Authorize Google Drive'):
-        create_url()
 
     st.write("Google Drive authentication was succesfull: ", st.session_state.authcomplete)
             

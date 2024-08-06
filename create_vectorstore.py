@@ -13,7 +13,7 @@ load_dotenv()
 def load_documents():
     CLIENT_SECRET_FILE = "client_secrets.json"
     TOKEN_FILE = "token.json"
-    GOOGLE_DRIVER_FOLDER_ID ="root"
+    GOOGLE_DRIVER_FOLDER_ID ="17x-JToBT6UXF2j2TdqE91J0G4yyvPTbZ"
 
     loader = GoogleDriveLoader(
         credentials_path=CLIENT_SECRET_FILE,

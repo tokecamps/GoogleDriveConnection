@@ -1,13 +1,13 @@
-from streamlit_float import *
-from googleapiclient.discovery import build
-from googleapiclient.http import MediaIoBaseDownload
-from google_auth_oauthlib.flow import InstalledAppFlow
-from langchain_google_community import GoogleDriveLoader
-from langchain_community.document_loaders import UnstructuredFileIOLoader
-
-import json
 import os
 import streamlit as st
+import json
+
+
+from googleapiclient.discovery import build
+
+from google_auth_oauthlib.flow import InstalledAppFlow
+
+
 
 
 def main():
@@ -47,10 +47,10 @@ def main():
 
         st.write('Please go to this URL: ', auth_url)
 
-        if auth_url:
-            code = st.text_input('Enter the authorization code: ', None)
+        code = st.text_input('Enter the authorization code: ', None)
 
-            if code:
+        if code:
+            try: 
                 flow.fetch_token(code=code)
 
                 session = flow.authorized_session()
@@ -63,12 +63,15 @@ def main():
                     
                 service = build('drive', 'v3', credentials=creds)
 
+                st.success("Google Drive authentication was successful.")
                 st.session_state.authcomplete = True
+            except Exception as e:
+                st.error(f"An error occurred: {e}")
+
   
 
     if st.button('Authorize Google Drive'):
         create_url()
-
 
     st.write("Google Drive authentication was succesfull: ", st.session_state.authcomplete)
             

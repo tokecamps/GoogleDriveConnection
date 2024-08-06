@@ -53,8 +53,9 @@ def create_service(code):
             
         service = build('drive', 'v3', credentials=creds)
 
-        st.success("Google Drive authentication was successful.")
+        with st.sidebar:
+            st.success("Google Drive authentication was successful.")
         st.session_state.authcomplete = True
-        
+
     except Exception as e:
         st.error(f"An error occurred: {e}")

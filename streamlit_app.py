@@ -6,7 +6,7 @@ import json
 from googleapiclient.discovery import build
 from google_auth_oauthlib.flow import InstalledAppFlow
 
-from drive_connection import authenticate
+from drive_connection import authenticate, create_creds
 
 
 def main():
@@ -21,7 +21,19 @@ def main():
         st.session_state.SCOPES =  ['https://www.googleapis.com/auth/drive']
 
     if st.sidebar.button('Authorize Google Drive'):
-        authenticate()
+        success = authenticate()
+
+        if not success:
+            if st.session_state.auth_url:
+                with st.sidebar:
+                    st.write('Please go to this URL: ', st.session_state.auth_url)
+                    code = st.text_input('Enter the authorization code: ', None)
+                if code:
+                    create_creds(code)
+
+                    success = authenticate()
+
+        
 
     # if st.session_state.auth_url:
     #     with st.sidebar:

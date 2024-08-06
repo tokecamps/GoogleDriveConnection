@@ -53,8 +53,6 @@ def create_creds(code):
         with open('token.json', 'w') as token_file:
             token_file.write(creds.to_json())
 
-        return creds
-
     except Exception as e:
         st.error(f"An error occurred: {e}")
 
@@ -71,20 +69,18 @@ def authenticate():
                 token_file.write(creds.to_json())
         else:
             create_url()
+            
+            return False
 
-            if st.session_state.auth_url:
-                with st.sidebar:
-                    st.write('Please go to this URL: ', st.session_state.auth_url)
-                    code = st.text_input('Enter the authorization code: ', None)
-                if code:
-                    creds = create_creds(code)
-
+            
     if creds and creds.valid:
         service = build('drive', 'v3', credentials=creds)
 
         with st.sidebar:
             st.success("Google Drive authentication was successful.")
         st.session_state.authcomplete = True
+
+        return True
  
 
 

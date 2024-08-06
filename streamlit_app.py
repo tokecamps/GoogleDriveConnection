@@ -31,13 +31,11 @@ def main():
         json_string = json.dumps(credentials, indent=4)
 
         # Save JSON string to a file
-        with open('Creds/client_secrets.json', 'w') as json_file:
+        with open('client_secrets.json', 'w') as json_file:
             json_file.write(json_string)
 
-        print(json_string)
-
         flow = InstalledAppFlow.from_client_secrets_file(
-            'Creds/client_secrets.json', 
+            'client_secrets.json', 
             SCOPES, 
             redirect_uri='urn:ietf:wg:oauth:2.0:oob')
         
@@ -57,7 +55,7 @@ def main():
                 creds = flow.credentials
 
                 # Save the credentials
-                with open('Creds/token.json', 'w') as token_file:
+                with open('token.json', 'w') as token_file:
                     token_file.write(creds.to_json())
                     
                 service = build('drive', 'v3', credentials=creds)
@@ -65,9 +63,7 @@ def main():
             return creds
 
     if st.button('Authorize Google Drive'):
-
         creds = create_url()
-
         st.markdown(creds)
             
 if __name__ == "__main__":

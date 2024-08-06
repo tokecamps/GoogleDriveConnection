@@ -117,7 +117,7 @@ def main(answer_mode='base_model'):
                                                               "chat_history":  st.session_state.messages})
                 
                 st.write(response)
-                final_response = response['response']
+                final_response = response['answer']
 
             st.write(final_response)
             st.session_state.messages.append({"role": "assistant", "content": final_response})

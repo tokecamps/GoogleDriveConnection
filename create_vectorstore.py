@@ -46,8 +46,7 @@ def add_files_to_vs(docs):
             index_name=index_name,
             embedding=embeddings
         )
-    
-    return True
+
     
 def check_index():
     index_name = "googledriveindex"
@@ -64,11 +63,11 @@ def check_index():
 def run_vs():
     docs = load_documents()
     # st.write(docs)
-    files_added = add_files_to_vs(docs)
+    add_files_to_vs(docs)
 
-    if files_added:
+    # if files_added:
 
-        num_vectors = check_index()
+    #     num_vectors = check_index()
 
-        with st.sidebar:
-            st.write("The vectorstore contains a number of ", str(num_vectors), " vectors")
+    #     with st.sidebar:
+    #         st.write("The vectorstore contains a number of ", str(num_vectors), " vectors")

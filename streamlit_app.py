@@ -1,12 +1,4 @@
-import streamlit as st
-import hmac
-import os
-# from helpers import speech_to_text
-# from generate_answer import base_model_chatbot, with_pdf_chatbot
-# from audio_recorder_streamlit import audio_recorder
 from streamlit_float import *
-# from googledrive_connection import load_googledrivedocs
-
 from googleapiclient.discovery import build
 from googleapiclient.http import MediaIoBaseDownload
 from google_auth_oauthlib.flow import InstalledAppFlow
@@ -14,12 +6,9 @@ from langchain_google_community import GoogleDriveLoader
 from langchain_community.document_loaders import UnstructuredFileIOLoader
 
 import json
-import webbrowser
 import os
-
 import streamlit as st
 
-from dotenv import load_dotenv
 
 def main():
 
@@ -34,11 +23,11 @@ def main():
             "token_uri": "https://accounts.google.com/o/oauth2/token",
             "auth_provider_x509_cert_url": "https://www.googleapis.com/oauth2/v1/certs",
             "client_secret": st.secrets["CLIENT_SECRET"],
-            "redirect_uris": ["'urn:ietf:wg:oauth:2.0:oob", "http://localhost", "http://localhost:8501", "https://chatbot-proposal.streamlit.app"]
+            "redirect_uris": ["urn:ietf:wg:oauth:2.0:oob"]
             }
         }
 
-            # Convert dictionary to JSON string
+        # Convert dictionary to JSON string
         json_string = json.dumps(credentials, indent=4)
 
         # Save JSON string to a file
@@ -47,40 +36,43 @@ def main():
 
         print(json_string)
 
-        flow = InstalledAppFlow.from_client_secrets_file('Creds/client_secrets.json', SCOPES, redirect_uri='https://chatbot-proposal.streamlit.app')
-        creds = flow.run_local_server(port=0)
-        # auth_url, _ = flow.authorization_url(prompt='consent')
+        flow = InstalledAppFlow.from_client_secrets_file(
+            'Creds/client_secrets.json', 
+            SCOPES, 
+            redirect_uri='urn:ietf:wg:oauth:2.0:oob')
         
-        return creds
+        # Tell the user to go to the authorization URL.
+        auth_url, _ = flow.authorization_url(prompt='consent')
 
-    if "show_button" not in st.session_state.keys():
-        st.session_state.show_button = False
+        print('Please go to this URL: {}'.format(auth_url))
+
+        if auth_url:
+            code = st.text_input('Enter the authorization code: ', None)
+
+            if code:
+                flow.fetch_token(code=code)
+
+                session = flow.authorized_session()
+
+                creds = flow.credentials
+
+                # Save the credentials
+                with open('Creds/token.json', 'w') as token_file:
+                    token_file.write(creds.to_json())
+                    
+                service = build('drive', 'v3', credentials=creds)
+
+            return creds
 
     if st.button('Authorize Google Drive'):
 
         creds = create_url()
 
         st.markdown(creds)
-        st.session_state.show_button = True
-
-    if st.session_state.show_button == True:
-        if st.button("Fetch token"):
-            flow.fetch_token()
-            creds = flow.credentials
-            st.markdown(creds)
-            # Save the credentials
-            with open('Creds/token.json', 'w') as token_file:
-                token_file.write(creds.to_json())
-
-            st.session_state.service = build('drive', 'v3', credentials=creds)
             
 if __name__ == "__main__":
 
     main() # Or: answer_mode='base_model' 
-
-
-
-
 
 
 # def main(answer_mode: str):

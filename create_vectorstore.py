@@ -38,7 +38,7 @@ def add_files_to_vs(docs):
         vectorstore.delete(delete_all=True)
 
     except:
-        print("Vectorstore could not be deleted")
+        st.write("Vectorstore could not be deleted")
         
 
     vectorstore_from_docs = PineconeVectorStore.from_documents(
@@ -61,7 +61,7 @@ def check_index():
 
 def run_vs():
     docs = load_documents()
-    print(docs)
+    st.write(docs)
     add_files_to_vs(docs)
 
     num_vectors = check_index()

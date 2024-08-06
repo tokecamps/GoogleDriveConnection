@@ -10,11 +10,11 @@ from dotenv import load_dotenv
 load_dotenv()
 
 
-CLIENT_SECRET_FILE = "client_secrets.json"
-TOKEN_FILE = "token.json"
-GOOGLE_DRIVER_FOLDER_ID ="root"
-
 def load_documents():
+    CLIENT_SECRET_FILE = "client_secrets.json"
+    TOKEN_FILE = "token.json"
+    GOOGLE_DRIVER_FOLDER_ID ="root"
+
     loader = GoogleDriveLoader(
         credentials_path=CLIENT_SECRET_FILE,
         token_path=TOKEN_FILE,

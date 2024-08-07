@@ -1,4 +1,5 @@
 test.ipynb
 token.json
-
+client_secrets.json
+secrets.toml
 googledrive_connection.py
